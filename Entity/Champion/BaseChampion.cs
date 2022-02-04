@@ -5,6 +5,7 @@ namespace Hoguma.Entity.Champion
   public class BaseChampion : IChampion
   {
     public string Name { get; }
+    public string Description { get; }
     public string Nickname { get; set; }
     public double Exp { get; set; }
     public double Level
@@ -33,9 +34,10 @@ namespace Hoguma.Entity.Champion
       }
     }
 
-    public BaseChampion(string name, string nickname, double ad, double ap)
+    public BaseChampion(string name, string description, string nickname, double ad, double ap)
     {
       Name = name;
+      Description = description;
       Nickname = nickname;
       Exp = 0;
       BaseAd = ad;

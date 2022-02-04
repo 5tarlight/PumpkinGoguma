@@ -3,6 +3,7 @@ namespace Hoguma.Entity.Champion
   public interface IChampion
   {
     public abstract string Name { get; }
+    public abstract string Description { get; }
     public abstract string Nickname { get; set; }
     public abstract double Exp { get; set; }
     public abstract double Level { get; }

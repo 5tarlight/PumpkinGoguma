@@ -17,7 +17,22 @@ namespace Hoguma
       var players = PlayerManager.LoadPlayerData();
       players.Add("새로 만들기");
       players.Add("종료하기");
-      ConsoleUtil.Ask(players);
+      var action = ConsoleUtil.Ask(players);
+
+      if (action >= players.Count)
+      {
+        // Create or Exit
+        if (action == players.Count)
+        {
+          // Create new champion
+          ConsoleUtil.Clear();
+        }
+        else
+        {
+          // Exit
+          Environment.Exit(0);
+        }
+      }
     }
   }
 }
