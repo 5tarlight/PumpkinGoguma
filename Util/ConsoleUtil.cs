@@ -18,9 +18,12 @@ namespace Hoguma.Util
       Console.Write(message);
     }
 
-    public static void WriteColor(string message, string color = Colors.txtDefault)
+    public static void WriteColor(string message, string color = Colors.txtDefault, bool isInline = true)
     {
-      _colorify.Write(message, color);
+      if (isInline)
+        _colorify.WriteLine(message, color);
+      else
+        _colorify.Write(message, color);
     }
   }
 }

@@ -7,7 +7,7 @@ namespace Hoguma
   {
     static void Main(string[] args)
     {
-      ConsoleUtil.WriteColor("Hello World!", Colors.txtDefault);
+      ConsoleUtil.WriteColor("\nWelcome To Pumpkin Potato\n", Colors.txtDefault);
     }
   }
 }
