@@ -84,7 +84,7 @@ namespace Hoguma.Util
         }
       } while (!done);
 
-      return 1;
+      return i;
     }
   }
 }
