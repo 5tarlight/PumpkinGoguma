@@ -14,7 +14,7 @@ namespace Hoguma.Util
         Directory.CreateDirectory(PlayerDataPath);
     }
 
-    public static List<string> LoadPlayerData()
+    public static List<string> LoadPlayerList()
     {
       CheckDirectory();
       return Directory.GetFiles(PlayerDataPath).ToList().FindAll(x => x.EndsWith(Suffix));
