@@ -1,8 +1,13 @@
-﻿class Program
+﻿using Hoguma.Util;
+using Colorify;
+
+namespace Hoguma
 {
-  static void Main(string[] args)
+  class Program
   {
-    Console.WriteLine("Hello World!");
+    static void Main(string[] args)
+    {
+      ConsoleUtil.WriteColor("\nWelcome To Pumpkin Potato\n", Colors.txtDefault);
+    }
   }
 }
- 
