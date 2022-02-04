@@ -1,10 +1,13 @@
-﻿namespace Hoguma
+﻿using Hoguma.Util;
+using Colorify;
+
+namespace Hoguma
 {
   class Program
   {
     static void Main(string[] args)
     {
-      Console.WriteLine("Hello World!");
+      ConsoleUtil.WriteColor("Hello World!", Colors.txtDefault);
     }
   }
 }
