@@ -14,7 +14,10 @@ namespace Hoguma
 
       ConsoleUtil.WriteColor("\nWelcome To Pumpkin Potato\n", Colors.txtDefault);
       ConsoleUtil.Pause();
-      ConsoleUtil.Ask(new List<string>() { "Start Game", "Exit" });
+      var players = PlayerManager.LoadPlayerData();
+      players.Add("새로 만들기");
+      players.Add("종료하기");
+      ConsoleUtil.Ask(players);
     }
   }
 }
