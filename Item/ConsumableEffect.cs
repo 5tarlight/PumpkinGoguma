@@ -1,10 +1,12 @@
 namespace PumpkinGoguma.Item
 {
-  public struct EquipmentAbility
+  public struct ConsumableEffect
   {
+    public double IncreaseAp { get; } = 0;
+
     public double IncreaseAd { get; } = 0;
 
-    public double IncreaseAp { get; } = 0;
+    public double IncreaseExp { get; } = 0;
 
     // public double IncreaseMaxHp { get; } = 0;
 
