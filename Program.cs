@@ -7,6 +7,8 @@ namespace Hoguma
   {
     static void Main(string[] args)
     {
+      AppDomain.CurrentDomain.ProcessExit += OnProcessEnd;
+
       for (int i = 0; i < 5; i++)
         ConsoleUtil.WriteColor("Hello World!");
       ConsoleUtil.Clear();
@@ -17,22 +19,31 @@ namespace Hoguma
       var players = PlayerManager.LoadPlayerList();
       players.Add("새로 만들기");
       players.Add("종료하기");
-      var action = ConsoleUtil.Ask(players);
-
-      if (action >= players.Count)
+      while (true)
       {
-        // Create or Exit
-        if (action == players.Count)
+        var action = ConsoleUtil.Ask("무엇을 하시겠습니까", players);
+
+        if (action >= players.Count - 2)
         {
-          // Create new champion
-          ConsoleUtil.Clear();
-        }
-        else
-        {
-          // Exit
-          Environment.Exit(0);
+          // Create or Exit
+          if (action == players.Count - 2)
+          {
+            // Create new champion
+            PlayerManager.CreatePlayer();
+          }
+          else
+          {
+            // Exit
+            Environment.Exit(0);
+          }
         }
       }
+    }
+
+    static void OnProcessEnd(object? sender, EventArgs e)
+    {
+      ConsoleUtil.WriteColor("저장하는 중...");
+      // Save everything
     }
   }
 }
