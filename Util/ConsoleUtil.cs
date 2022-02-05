@@ -5,6 +5,18 @@ using System.Collections.Generic;
 
 namespace Hoguma.Util
 {
+  class AskResponse
+  {
+    public AskResponse(int index, bool isCancel)
+    {
+      Index = index;
+      IsCancel = isCancel;
+    }
+
+    public int Index { get; }
+    public bool IsCancel { get; }
+  }
+
   class ConsoleUtil
   {
     private static Format _colorify = new Format(Theme.Dark);
@@ -19,12 +31,12 @@ namespace Hoguma.Util
       Console.Write(message);
     }
 
-    public static void WriteColor(string message, string color = Colors.txtDefault, bool isInline = true)
+    public static void WriteColor(string message, string color = Colors.txtDefault, bool isInline = false)
     {
       if (isInline)
-        _colorify.WriteLine(message, color);
-      else
         _colorify.Write(message, color);
+      else
+        _colorify.WriteLine(message, color);
     }
 
     public static void Clear()
@@ -45,7 +57,7 @@ namespace Hoguma.Util
       ReadKey();
     }
 
-    public static int Ask(List<string> query)
+    public static int Ask(string title, List<string> query)
     {
       if (query.Count == 0)
         return -1;
@@ -56,6 +68,7 @@ namespace Hoguma.Util
       do
       {
         Clear();
+        WriteColor(title);
         for (int k = 0; k < query.Count; k++)
         {
           var txt = $"{k + 1}. {query[k]}";
@@ -84,7 +97,41 @@ namespace Hoguma.Util
         }
       } while (!done);
 
-      return 1;
+      return i;
+    }
+
+    public static AskResponse Ask(string title, List<string> query, bool addCancel)
+    {
+      if (addCancel)
+      {
+        query.Add("취소");
+        var res = Ask(title, query);
+        if (res == query.Count)
+          return new AskResponse(-1, true);
+        else
+          return new AskResponse(res, false);
+      }
+      else
+      {
+        var res = Ask(title, query);
+        return new AskResponse(res, false);
+      }
+    }
+
+    public static string ReadLine(string query, Func<string?, bool> checker)
+    {
+      string? line;
+
+      do
+      {
+        WriteColor($"{query}", Colors.txtDefault, true);
+        line = Console.ReadLine();
+      } while (!checker(line));
+
+      if (line == null)
+        return "";
+      else
+        return line;
     }
   }
 }
