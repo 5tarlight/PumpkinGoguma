@@ -1,7 +1,7 @@
 namespace PumpkinGoguma.Item
 {
-  public class ItemAbility
+  public enum ItemId
   {
-
+    NONE
   }
 }

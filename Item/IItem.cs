@@ -2,9 +2,9 @@ namespace PumpkinGoguma.Item
 {
   public interface IItem
   {
-    string Name { get; set; }
-    string Explanation { get; set; }
-    ItemType Type { get; set; }
-    ItemAbility Ability { get; set; }
+    string Name { get; }
+    string Description { get; }
+    ItemId Id { get; }
+    ItemType Type { get; }
   }
 }
