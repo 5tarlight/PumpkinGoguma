@@ -216,14 +216,24 @@ namespace Hoguma.Util
                 page = pageCount;
               else
                 page--;
+              selectedColumn = max - 1;
             }
+            else
+              selectedColumn--;
             break;
 
           case ConsoleKey.DownArrow:
-            if (page == pageCount)
-              page = 0;
+            if (selectedColumn == max - 1)
+            {
+              if (page == pageCount)
+                page = 0;
+              else
+                page++;
+              selectedColumn = 0;
+            }
             else
-              page++;
+              selectedColumn++;
+
             break;
 
           case ConsoleKey.Escape:
