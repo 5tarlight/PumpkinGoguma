@@ -1,8 +1,8 @@
 namespace Hoguma.Entity.Champion
 {
-  public sealed class TempPlayer : BaseChampion
+  public sealed class TempChampion : BaseChampion
   {
-    public TempPlayer(string nickname) : base(nickname)
+    public TempChampion(string nickname) : base(nickname)
     { }
 
     public override string Name => "임시 캐릭터";
