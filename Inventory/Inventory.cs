@@ -1,3 +1,5 @@
+using System.Drawing;
+using Colorify;
 using Hoguma.Util;
 using PumpkinGoguma.Item;
 
@@ -19,7 +21,15 @@ namespace PumpkinGoguma.Inventory
 
     public void Show()
     {
-
+      while (true)
+      {
+        var res = GetSelectedItem();
+        if (res != null)
+        {
+          ShowDescription((SelectedItem)res);
+        }
+        else return;
+      }
     }
 
     public SelectedItem? GetSelectedItem()
@@ -46,6 +56,19 @@ namespace PumpkinGoguma.Inventory
         else
           return null;
       }
+    }
+
+    public void ShowDescription(SelectedItem selectedItem)
+    {
+      var item = Items[(int)selectedItem.Type].Items[selectedItem.Index];
+
+      ConsoleUtil.WriteColor($" - {item.Name}", Colors.txtInfo, true);
+      ConsoleUtil.WriteColor($"{item.Type.ToString()} 아이템", Colors.txtWarning);
+      ConsoleUtil.WriteColor($" [ {item.Count} 개 ]", Colors.txtDefault, true);
+      ConsoleUtil.WriteLine(item.Description);
+
+      ConsoleUtil.Pause(false);
+
     }
   }
 }
