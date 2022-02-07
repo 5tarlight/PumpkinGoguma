@@ -1,5 +1,6 @@
 namespace Hoguma.Entity.Champion
 {
+  [Serializable]
   public sealed class TempChampion : BaseChampion
   {
     public TempChampion(string nickname) : base(nickname)
@@ -7,7 +8,7 @@ namespace Hoguma.Entity.Champion
 
     public override string Name => "임시 캐릭터";
 
-    public override string Description => "개발자의 가호가 깃든 캐릭터입니다. 희귀하긴 하죠...?";
+    public override string Description => "개발자의 가호가 깃든 캐릭터입니다. 희귀하긴 하죠...";
 
     public override double BaseAd => 50;
 
