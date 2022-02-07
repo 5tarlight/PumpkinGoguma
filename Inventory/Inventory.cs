@@ -34,27 +34,18 @@ namespace PumpkinGoguma.Inventory
     public SelectedItem? GetSelectedItem()
     {
       var invList = Items.Select(x => x.Type.ToString()).ToList<string>();
+      var itemList = new List<List<string>>();
 
-      while (true)
+      foreach (var inv in Items)
       {
-        var res = ConsoleUtil.Ask("인벤토리 종류를 선택하세요.", invList, true);
-        if (!res.IsCancel)
-        {
-          var itemType = ((ItemType)res.Index).ToString();
-          var itemList = Items[res.Index].Items.Select(x => $"{x.Name} [ {x.Count} ]").ToList<string>();
-
-          var itemRes = ConsoleUtil.Ask($"[ {itemType} ] 아이템을 선택하세요", itemList, true);
-
-          if (!itemRes.IsCancel)
-          {
-            return new SelectedItem((ItemType)res.Index, itemRes.Index);
-          }
-          else
-            return null;
-        }
-        else
-          return null;
+        itemList.Add(inv.Items.Select(x => x.Name).ToList());
       }
+
+      var select = ConsoleUtil.Select("아이템을 선택하세요.", new SelectQuery(invList, itemList));
+
+      if (select.IsCancel) return null;
+      else return new SelectedItem((ItemType)select.Row, select.Column);
+
     }
 
     public void ShowDescription(SelectedItem selectedItem)
