@@ -1,4 +1,5 @@
 using Hoguma.Util;
+using PumpkinGoguma.Inventory;
 
 namespace Hoguma.Entity.Champion
 {
@@ -54,6 +55,8 @@ namespace Hoguma.Entity.Champion
     public double Mp { get; set; }
     public abstract double GrowthMp { get; }
     public abstract double BaseMp { get; }
+
+    public Inventory Inventory { get; } = new Inventory();
 
     public BaseChampion(string nickname) : base()
     {
