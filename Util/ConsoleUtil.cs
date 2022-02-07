@@ -172,7 +172,7 @@ namespace Hoguma.Util
       {
         Clear();
         WriteColor(title, Colors.txtDefault, true);
-        WriteColor("\n | ", Colors.txtDefault, true);
+        WriteColor("\n\n| ", Colors.txtDefault, true);
 
         for (var i = 0; i < query.Rows.Count; i++)
         {
@@ -184,9 +184,17 @@ namespace Hoguma.Util
         for (var i = 0; i < max; i++)
         {
           var index = (max * page) + i;
-          var txt = $"{index + 1}. {query.Columns[selectedRow][index]}";
+          if (index <= query.Columns[selectedRow].Count - 1)
+          {
+            var txt = $"    {index + 1}. {query.Columns[selectedRow][index]}";
+            WriteColor(txt, (i == selectedColumn ? Colors.txtDefault : Colors.txtMuted));
+          }
+          else
+          {
+            var txt = $"    {index + 1}. 없음";
+            WriteColor(txt, (i == selectedColumn ? Colors.txtDefault : Colors.txtMuted));
+          }
 
-          WriteColor(txt, (i == selectedColumn ? Colors.txtDefault : Colors.txtMuted));
         }
         WriteColor("\n↑↓←→ 이동, ↲ 선택, Esc 취소");
 
@@ -240,8 +248,10 @@ namespace Hoguma.Util
             return new SelectResponse(-1, -1, true);
 
           case ConsoleKey.Enter:
-            return new SelectResponse(selectedRow, selectedColumn, false);
-
+            var index = (max * page) + selectedColumn;
+            if (index < query.Columns[selectedRow].Count)
+              return new SelectResponse(selectedRow, (max * page) + selectedColumn, false);
+            break;
         }
       } while (true);
     }
