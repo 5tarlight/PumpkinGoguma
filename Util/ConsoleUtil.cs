@@ -187,7 +187,7 @@ namespace Hoguma.Util
 
           WriteColor(txt, (i == selectedColumn ? Colors.txtDefault : Colors.txtMuted));
         }
-        WriteColor("\n↑↓←→ 이동, ↲ 선택");
+        WriteColor("\n↑↓←→ 이동, ↲ 선택, Esc 취소");
 
         var pageCount = (int)Math.Ceiling((double)(query.Columns[selectedRow].Count / max));
         var key = ReadKey();
@@ -224,9 +224,14 @@ namespace Hoguma.Util
             else
               page++;
             break;
+
+          case ConsoleKey.Escape:
+            return new SelectResponse(-1, -1, true);
+
+          case ConsoleKey.Enter:
+            return new SelectResponse(selectedRow, selectedColumn, false);
+
         }
-
-
       } while (true);
     }
   }
