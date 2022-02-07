@@ -17,6 +17,32 @@ namespace Hoguma.Util
     public bool IsCancel { get; }
   }
 
+  class SelectResponse
+  {
+    public SelectResponse(int row, int column, bool isCancel)
+    {
+      Row = row;
+      Column = column;
+      IsCancel = isCancel;
+    }
+
+    public int Row { get; }
+    public int Column { get; }
+    public bool IsCancel { get; }
+  }
+
+  class SelectQuery
+  {
+    public SelectQuery(List<string> rowItems, List<List<string>> columnItems)
+    {
+      Rows = rowItems;
+      Columns = columnItems;
+    }
+
+    public List<string> Rows { get; }
+    public List<List<string>> Columns { get; }
+  }
+
   class ConsoleUtil
   {
     private static Format _colorify = new Format(Theme.Dark);
@@ -102,18 +128,19 @@ namespace Hoguma.Util
 
     public static AskResponse Ask(string title, List<string> query, bool addCancel)
     {
+      var tmp = query.ConvertAll(q => q);
       if (addCancel)
       {
-        query.Add("취소");
-        var res = Ask(title, query);
-        if (res == query.Count)
+        tmp.Add("취소");
+        var res = Ask(title, tmp);
+        if (res == tmp.Count)
           return new AskResponse(-1, true);
         else
           return new AskResponse(res, false);
       }
       else
       {
-        var res = Ask(title, query);
+        var res = Ask(title, tmp);
         return new AskResponse(res, false);
       }
     }
@@ -132,6 +159,81 @@ namespace Hoguma.Util
         return "";
       else
         return line;
+    }
+
+    public static SelectResponse Select(string title, SelectQuery query)
+    {
+      const int max = 10;
+      var page = 0;
+
+      var selectedRow = 0;
+      var selectedColumn = 0;
+      do
+      {
+        Clear();
+        WriteColor(title, Colors.txtDefault, true);
+        WriteColor("\n | ", Colors.txtDefault, true);
+
+        for (var i = 0; i < query.Rows.Count; i++)
+        {
+          WriteColor(query.Rows[i], (selectedRow == i ? Colors.txtDefault : Colors.txtMuted), true);
+          WriteColor(" | ", Colors.txtDefault, true);
+        }
+        Write("\n\n");
+
+        for (var i = 0; i < max; i++)
+        {
+          var index = (max * page) + i;
+          var txt = $"{index + 1}. {query.Columns[selectedRow][index]}";
+
+          WriteColor(txt, (i == selectedColumn ? Colors.txtDefault : Colors.txtMuted));
+        }
+        WriteColor("\n↑↓←→ 이동, ↲ 선택, Esc 취소");
+
+        var pageCount = (int)Math.Ceiling((double)(query.Columns[selectedRow].Count / max));
+        var key = ReadKey();
+
+        switch (key)
+        {
+          case ConsoleKey.LeftArrow:
+            if (selectedRow == 0)
+              selectedRow = query.Rows.Count - 1;
+            else
+              selectedRow--;
+            break;
+
+          case ConsoleKey.RightArrow:
+            if (selectedRow == query.Rows.Count - 1)
+              selectedRow = 0;
+            else
+              selectedRow++;
+            break;
+
+          case ConsoleKey.UpArrow:
+            if (selectedColumn == 0)
+            {
+              if (page == 0)
+                page = pageCount;
+              else
+                page--;
+            }
+            break;
+
+          case ConsoleKey.DownArrow:
+            if (page == pageCount)
+              page = 0;
+            else
+              page++;
+            break;
+
+          case ConsoleKey.Escape:
+            return new SelectResponse(-1, -1, true);
+
+          case ConsoleKey.Enter:
+            return new SelectResponse(selectedRow, selectedColumn, false);
+
+        }
+      } while (true);
     }
   }
 }

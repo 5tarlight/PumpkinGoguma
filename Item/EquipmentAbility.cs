@@ -1,5 +1,6 @@
 namespace PumpkinGoguma.Item
 {
+  [Serializable]
   public struct EquipmentAbility
   {
     public double IncreaseAd { get; } = 0;

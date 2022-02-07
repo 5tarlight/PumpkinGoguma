@@ -11,6 +11,8 @@ namespace Hoguma.Util
       "임시 캐릭터"
     };
 
+    public static BaseChampion CurrentChampion { get; set; }
+
     private static void CheckDirectory()
     {
       if (!Directory.Exists(PlayerDataPath))
@@ -23,29 +25,48 @@ namespace Hoguma.Util
       return Directory.GetFiles(PlayerDataPath).ToList().FindAll(x => x.EndsWith(Suffix));
     }
 
+    private static bool IsNameValid(string? s)
+    {
+      if (s == null || s.Length > 20)
+        return false;
+
+      var invalid = false;
+      foreach (var c in Path.GetInvalidFileNameChars())
+      {
+        if (s.Contains(c))
+        {
+          invalid = true;
+          break;
+        }
+      }
+      return !invalid;
+    }
+
     public static void CreatePlayer()
     {
       CheckDirectory();
       var res = ConsoleUtil.Ask("캐릭터를 선택하세요", champions, true);
+      var champ = res.Index;
       if (res.IsCancel)
         return;
-      var nickname = ConsoleUtil.ReadLine("닉네임 : ", s =>
+      var nickname = ConsoleUtil.ReadLine("닉네임 : ", IsNameValid);
+
+      BaseChampion champion;
+
+      switch (champ)
       {
-        if (s == null || s.Length > 20)
-          return false;
+        case 0:
+          champion = new TempChampion(nickname);
+          break;
+        default:
+          champion = new TempChampion(nickname); // This is not intended working
+          break;
+      }
+    }
 
-        var invalid = false;
-        foreach (var c in Path.GetInvalidFileNameChars())
-        {
-          if (s.Contains(c))
-          {
-            invalid = true;
-            break;
-          }
-        }
-        return !invalid;
-      });
-
+    public static bool SavePlayerData(BaseChampion champion)
+    {
+      return true;
     }
   }
 }

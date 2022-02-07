@@ -1,11 +1,12 @@
 using Hoguma.Util;
+using PumpkinGoguma.Inventory;
 
 namespace Hoguma.Entity.Champion
 {
-  public class BaseChampion : IChampion
+  public abstract class BaseChampion : IChampion
   {
-    public string Name { get; }
-    public string Description { get; }
+    public abstract string Name { get; }
+    public abstract string Description { get; }
     public string Nickname { get; set; }
     public double Exp { get; set; }
     public double Level
@@ -15,8 +16,8 @@ namespace Hoguma.Entity.Champion
         return Math.Floor(Math.Sqrt(Exp / 100)) + 1;
       }
     }
-    public double BaseAd { get; }
-    public double GrowthAd { get; }
+    public abstract double BaseAd { get; }
+    public abstract double GrowthAd { get; }
     public double Ad
     {
       get
@@ -24,8 +25,8 @@ namespace Hoguma.Entity.Champion
         return BaseAd + (GrowthAd * Level);
       }
     }
-    public double BaseAp { get; }
-    public double GrowthAp { get; }
+    public abstract double BaseAp { get; }
+    public abstract double GrowthAp { get; }
     public double Ap
     {
       get
@@ -33,15 +34,33 @@ namespace Hoguma.Entity.Champion
         return BaseAp + (GrowthAp * Level);
       }
     }
-
-    public BaseChampion(string name, string description, string nickname, double ad, double ap)
+    public double MaxHp
     {
-      Name = name;
-      Description = description;
+      get
+      {
+        return BaseHp + (GrowthHp * Level);
+      }
+    }
+    public double Hp { get; set; }
+    public abstract double GrowthHp { get; }
+    public abstract double BaseHp { get; }
+    public double MaxMp
+    {
+      get
+      {
+        return BaseMp + (GrowthMp * Level);
+
+      }
+    }
+    public double Mp { get; set; }
+    public abstract double GrowthMp { get; }
+    public abstract double BaseMp { get; }
+
+    public Inventory Inventory { get; } = new Inventory();
+
+    public BaseChampion(string nickname) : base()
+    {
       Nickname = nickname;
-      Exp = 0;
-      BaseAd = ad;
-      BaseAp = ap;
     }
 
     public void ExpUp(double exp)

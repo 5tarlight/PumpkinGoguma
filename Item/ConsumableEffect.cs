@@ -1,5 +1,6 @@
 namespace PumpkinGoguma.Item
 {
+  [Serializable]
   public struct ConsumableEffect
   {
     public double IncreaseAp { get; } = 0;
