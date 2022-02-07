@@ -1,3 +1,4 @@
+using System.Runtime.Serialization.Formatters.Binary;
 using Hoguma.Entity.Champion;
 
 namespace Hoguma.Util
@@ -11,7 +12,7 @@ namespace Hoguma.Util
       "임시 캐릭터"
     };
 
-    public static BaseChampion CurrentChampion { get; set; }
+    public static BaseChampion CurrentChampion { get; set; } = null!;
 
     private static void CheckDirectory()
     {
@@ -22,7 +23,11 @@ namespace Hoguma.Util
     public static List<string> LoadPlayerList()
     {
       CheckDirectory();
-      return Directory.GetFiles(PlayerDataPath).ToList().FindAll(x => x.EndsWith(Suffix));
+      return Directory.GetFiles(PlayerDataPath).ToList().FindAll(x => x.EndsWith(Suffix)).ConvertAll(x =>
+      {
+        var index = x.LastIndexOf(Sep);
+        return x.Substring(index + 1, x.Length - index - 1 - Suffix.Length);
+      });
     }
 
     private static bool IsNameValid(string? s)
@@ -62,11 +67,25 @@ namespace Hoguma.Util
           champion = new TempChampion(nickname); // This is not intended working
           break;
       }
+
+      CurrentChampion = champion;
+      PlayerManager.SavePlayerData(champion);
     }
 
-    public static bool SavePlayerData(BaseChampion champion)
+    public static void SavePlayerData(BaseChampion champion)
     {
-      return true;
+      CheckDirectory();
+      var fileName = $"{PlayerDataPath}{Sep}{champion.Nickname}{Suffix}";
+
+      using (var ws = new FileStream(fileName, FileMode.OpenOrCreate))
+      {
+        var serializer = new BinaryFormatter();
+        serializer.Serialize(ws, champion);
+      }
+    }
+    public static void SaveCurrentPlayer()
+    {
+      PlayerManager.SavePlayerData(PlayerManager.CurrentChampion);
     }
   }
 }

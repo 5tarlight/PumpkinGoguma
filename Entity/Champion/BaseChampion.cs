@@ -2,6 +2,7 @@ using Hoguma.Util;
 
 namespace Hoguma.Entity.Champion
 {
+  [Serializable]
   public abstract class BaseChampion : IChampion
   {
     public abstract string Name { get; }
