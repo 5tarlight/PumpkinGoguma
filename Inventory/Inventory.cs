@@ -1,4 +1,3 @@
-using System.Drawing;
 using Colorify;
 using Hoguma.Util;
 using PumpkinGoguma.Item;
@@ -69,6 +68,46 @@ namespace PumpkinGoguma.Inventory
 
       ConsoleUtil.Pause(false);
 
+    }
+
+    public void RemoveItem(SelectedItem selectedItem, bool ask = true)
+    {
+      var item = Items[(int)selectedItem.Type].Items[selectedItem.Index];
+
+      if (ask)
+      {
+        int count = 1;
+        if (item.Count > 1)
+        {
+          ConsoleUtil.ReadLine($"{item.Name}(이)가 {item.Count}개가 있습니다. 몇 개를 버리시겠습니까?", s =>
+          {
+            int i;
+            var isParse = Int32.TryParse(s, out i);
+            if (isParse)
+            {
+              if (i > 0 || i <= item.Count)
+              {
+                count = i;
+                return true;
+              }
+            }
+            return false;
+          });
+        }
+
+        var res = ConsoleUtil.Ask($"{item.Name}{(count == 1 ? "(을)를" : $" {item.Count}개를")} 버리시겠습니까", new List<string>() { "예", "아니요" });
+        if (res == 0)
+        {
+          ConsoleUtil.WriteLine($"{item.Name}{(count == 1 ? "(을)를" : $" {item.Count}개를")} 버렸습니다.");
+        }
+        else
+        {
+          ConsoleUtil.WriteLine($"{item.Name}(을)를 버리지 않았습니다.");
+          return;
+        }
+      }
+
+      Items[(int)selectedItem.Type].Items.RemoveAt(selectedItem.Index);
     }
   }
 }
