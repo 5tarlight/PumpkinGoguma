@@ -1,4 +1,4 @@
-namespace PumpkinGoguma.Game
+namespace Hoguma.Game
 {
   public class Main
   {

@@ -1,8 +1,8 @@
 using Colorify;
 using Hoguma.Util;
-using PumpkinGoguma.Item;
+using Hoguma.Item;
 
-namespace PumpkinGoguma.Inventory
+namespace Hoguma.Inventory
 {
   [Serializable]
   public class Inventory

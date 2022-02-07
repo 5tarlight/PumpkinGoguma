@@ -1,4 +1,4 @@
-namespace PumpkinGoguma.Item
+namespace Hoguma.Item
 {
   public interface IItem
   {

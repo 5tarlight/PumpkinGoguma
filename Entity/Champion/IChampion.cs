@@ -1,4 +1,4 @@
-using PumpkinGoguma.Inventory;
+using Hoguma.Inventory;
 
 namespace Hoguma.Entity.Champion
 {
@@ -24,7 +24,7 @@ namespace Hoguma.Entity.Champion
     public abstract double GrowthAp { get; }
     public abstract double Ap { get; }
 
-    public abstract Inventory Inventory { get; }
+    public abstract Inventory.Inventory Inventory { get; }
 
     public abstract void ExpUp(double exp);
   }
