@@ -2,6 +2,7 @@ using PumpkinGoguma.Item;
 
 namespace PumpkinGoguma.Inventory
 {
+  [Serializable]
   public class InventoryItem
   {
     private List<IItem> items;

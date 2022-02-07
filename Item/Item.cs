@@ -1,5 +1,6 @@
 namespace PumpkinGoguma.Item
 {
+  [Serializable]
   public abstract class Item : IItem
   {
     public abstract string Name { get; }

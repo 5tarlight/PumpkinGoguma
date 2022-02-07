@@ -4,6 +4,7 @@ using PumpkinGoguma.Item;
 
 namespace PumpkinGoguma.Inventory
 {
+  [Serializable]
   public class Inventory
   {
     public List<InventoryItem> Items { get; set; } = new List<InventoryItem>();

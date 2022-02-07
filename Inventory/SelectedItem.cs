@@ -2,6 +2,7 @@ using PumpkinGoguma.Item;
 
 namespace PumpkinGoguma.Inventory
 {
+  [Serializable]
   public struct SelectedItem
   {
     public ItemType Type { get; set; }
