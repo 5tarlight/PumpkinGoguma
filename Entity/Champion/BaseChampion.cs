@@ -3,6 +3,7 @@ using PumpkinGoguma.Inventory;
 
 namespace Hoguma.Entity.Champion
 {
+  [Serializable]
   public abstract class BaseChampion : IChampion
   {
     public abstract string Name { get; }
