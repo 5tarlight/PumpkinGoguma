@@ -128,18 +128,19 @@ namespace Hoguma.Util
 
     public static AskResponse Ask(string title, List<string> query, bool addCancel)
     {
+      var tmp = query.ConvertAll(q => q);
       if (addCancel)
       {
-        query.Add("취소");
-        var res = Ask(title, query);
-        if (res == query.Count)
+        tmp.Add("취소");
+        var res = Ask(title, tmp);
+        if (res == tmp.Count)
           return new AskResponse(-1, true);
         else
           return new AskResponse(res, false);
       }
       else
       {
-        var res = Ask(title, query);
+        var res = Ask(title, tmp);
         return new AskResponse(res, false);
       }
     }
