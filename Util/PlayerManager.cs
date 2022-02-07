@@ -87,5 +87,18 @@ namespace Hoguma.Util
     {
       PlayerManager.SavePlayerData(PlayerManager.CurrentChampion);
     }
+
+    public static void LoadPlayerData(string name)
+    {
+      CheckDirectory();
+      var fileName = $"{PlayerDataPath}{Sep}{name}{Suffix}";
+
+      using (var rs = new FileStream(fileName, FileMode.Open))
+      {
+        var serializer = new BinaryFormatter();
+        var champion = serializer.Deserialize(rs) as BaseChampion;
+        PlayerManager.CurrentChampion = champion;
+      }
+    }
   }
 }
