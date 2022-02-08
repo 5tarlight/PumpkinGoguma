@@ -21,13 +21,15 @@ namespace Hoguma
       players.Add("종료하기");
       while (true)
       {
-        var action = ConsoleUtil.Ask("무엇을 하시겠습니까", players);
+        var action = ConsoleUtil.Ask("캐릭터를 선택해 주세요.", players);
         PlayerManager.LoadPlayerData(players[action]);
+
         /*
           @todo Remove this statement
           @body This statement is for testing. Check if player loading is working.
         */
         ConsoleUtil.WriteColor($"Player loaded! {PlayerManager.CurrentChampion.Name} - {PlayerManager.CurrentChampion.Nickname}");
+        ConsoleUtil.Pause();
 
         if (action >= players.Count - 2)
         {
