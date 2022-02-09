@@ -1,3 +1,6 @@
+using System.Net.NetworkInformation;
+using System.Reflection;
+
 namespace Hoguma.Item
 {
   [Serializable]
@@ -13,10 +16,19 @@ namespace Hoguma.Item
 
     public virtual ItemId Id => ItemId.NONE;
 
-    public virtual object Clone()
+    public object Clone()
     {
-      var
-      return
+      object newInstance = Activator.CreateInstance(this.GetType());
+      PropertyInfo[] properties = newInstance.GetType().GetProperties();
+
+      int i = 0;
+
+      foreach (var property in this.GetType().GetProperties())
+      {
+        properties[i].SetValue(newInstance, property.GetValue(this, null), null);
+        i++;
+      }
+      return newInstance;
     }
   }
 }

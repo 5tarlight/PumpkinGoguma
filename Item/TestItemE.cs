@@ -6,5 +6,6 @@ namespace Hoguma.Item
 
     public override string Description => "테스트용으로 만들어진 아이템이다!";
 
+    public override EquipmentType EquipmentType => EquipmentType.CHESTPLATE;
   }
 }
