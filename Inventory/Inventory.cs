@@ -7,7 +7,9 @@ namespace Hoguma.Inventory
   [Serializable]
   public class Inventory
   {
-    public List<InventoryItem> Items { get; set; } = new List<InventoryItem>();
+    public List<InventoryItem> Items { get; private set; } = new List<InventoryItem>();
+
+    public EquipmentInv Equipment { get; private set; } = new EquipmentInv();
 
     public Inventory()
     {
