@@ -47,13 +47,13 @@ namespace Hoguma.Util
       return !invalid;
     }
 
-    public static void CreatePlayer()
+    public static bool CreatePlayer()
     {
       CheckDirectory();
       var res = ConsoleUtil.Ask("캐릭터를 선택하세요", champions, true);
       var champ = res.Index;
       if (res.IsCancel)
-        return;
+        return false;
       var nickname = ConsoleUtil.ReadLine("닉네임 : ", IsNameValid);
 
       BaseChampion champion;
@@ -70,6 +70,7 @@ namespace Hoguma.Util
 
       CurrentChampion = champion;
       PlayerManager.SavePlayerData(champion);
+      return true;
     }
 
     public static void SavePlayerData(BaseChampion champion)

@@ -55,7 +55,7 @@ namespace Hoguma.Inventory
       {
         ConsoleUtil.WriteColor(ConsoleUtil.GetSep(len, " INVENTORY "));
         ConsoleUtil.WriteColor(ConsoleUtil.GetSep(len, $"{Money} G", ' '), Colors.txtWarning);
-      }, new SelectQuery(invList, itemList));
+      }, new SelectQuery(invList, itemList), true);
 
       if (select.IsCancel) return null;
       else return new SelectedItem((ItemType)select.Row, select.Column);

@@ -55,8 +55,8 @@ namespace Hoguma.Util
       var sb = new StringBuilder();
       if (upDown) sb.Append($"{Keys[KeyType.UP].Mark} {Keys[KeyType.DOWN].Mark}");
       if (leftRight) sb.Append($" {Keys[KeyType.LEFT].Mark} {Keys[KeyType.RIGHT].Mark}");
-      sb.Append(". 이동");
-      if (enter) sb.Append($"{Keys[KeyType.ENTER].Mark}. 확인");
+      sb.Append(". 이동 ");
+      if (enter) sb.Append($"{Keys[KeyType.ENTER].Mark}. 확인 ");
       if (cancel) sb.Append($"{Keys[KeyType.CANCEL].Mark}. 취소");
       return sb.ToString();
     }
