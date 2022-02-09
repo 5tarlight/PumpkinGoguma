@@ -7,7 +7,13 @@ namespace Hoguma.Inventory
   [Serializable]
   public class Inventory
   {
-    public List<InventoryItem> Items { get; set; } = new List<InventoryItem>();
+    public List<InventoryItem> Items { get; private set; } = new List<InventoryItem>();
+
+    public EquipmentInv Equipment { get; private set; } = new EquipmentInv();
+
+    public const int MaxMoney = Int32.MaxValue;
+
+    public int Money { get; private set; }
 
     public Inventory()
     {
@@ -42,7 +48,14 @@ namespace Hoguma.Inventory
         itemList.Add(inv.Items.Select(x => x.Name).ToList());
       }
 
-      var select = ConsoleUtil.Select("아이템을 선택하세요.", new SelectQuery(invList, itemList));
+      var len = 2 + (invList.Count * 3);
+      foreach (var inv in invList) len += inv.Length;
+
+      var select = ConsoleUtil.Select(() =>
+      {
+        ConsoleUtil.WriteColor(ConsoleUtil.GetSep(len, " INVENTORY "));
+        ConsoleUtil.WriteColor(ConsoleUtil.GetSep(len, $"{Money} G", ' '), Colors.txtWarning);
+      }, new SelectQuery(invList, itemList));
 
       if (select.IsCancel) return null;
       else return new SelectedItem((ItemType)select.Row, select.Column);
@@ -91,15 +104,43 @@ namespace Hoguma.Inventory
         if (res == 0)
         {
           ConsoleUtil.WriteLine($"{item.Name}{(count == 1 ? "(을)를" : $" {item.Count}개를")} 버렸습니다.");
+          ConsoleUtil.Pause(false);
         }
         else
         {
           ConsoleUtil.WriteLine($"{item.Name}(을)를 버리지 않았습니다.");
+          ConsoleUtil.Pause(false);
           return;
         }
       }
 
       Items[(int)selectedItem.Type].Items.RemoveAt(selectedItem.Index);
     }
+
+    public void GetItem(IItem item, bool printMessage = true)
+    {
+      var inv = Items[Items.IndexOf(Items.Single(x => x.Type == item.Type))];
+
+      var mergeableItem = inv.Items.SingleOrDefault(x => x.CanMerge(item));
+
+      if (mergeableItem != null)
+      {
+        inv.Items[inv.Items.IndexOf(mergeableItem)].Count += item.Count;
+      }
+      else
+      {
+        inv.Items.Add(item);
+      }
+
+      if (printMessage)
+      {
+        ConsoleUtil.WriteColor($"{item.Name}{(item.Count == 1 ? "(을)를" : $" {item.Count}개를")} 획득했습니다.", Colors.txtSuccess);
+        ConsoleUtil.Pause(false);
+      }
+    }
+
+    public void GetMoney(int value) => Money = Math.Min(Money + Math.Abs(value), MaxMoney);
+
+    public void LoseMoney(int value) => Money = Math.Max(0, Money - Math.Abs(value));
   }
 }
