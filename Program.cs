@@ -42,7 +42,7 @@ namespace Hoguma
         }
         else if (action.Index == 2 || (action.Index == 1 && !hasPlayerData))
         {
-          // Exit
+          // Exit.
           Environment.Exit(0);
         }
 
