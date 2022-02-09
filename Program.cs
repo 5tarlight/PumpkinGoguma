@@ -38,6 +38,7 @@ namespace Hoguma
           {
             // Create new champion
             PlayerManager.CreatePlayer();
+            Hoguma.Game.Main.ShowMenu();
           }
           else
           {

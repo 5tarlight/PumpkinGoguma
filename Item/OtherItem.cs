@@ -1,4 +1,4 @@
-namespace PumpkinGoguma.Item
+namespace Hoguma.Item
 {
   [Serializable]
   public abstract class OtherItem : Item
