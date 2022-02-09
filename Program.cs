@@ -22,7 +22,7 @@ namespace Hoguma
       while (true)
       {
         var action = ConsoleUtil.Ask("캐릭터를 선택해 주세요.", players);
-        PlayerManager.LoadPlayerData(players[action]);
+        PlayerManager.LoadPlayerData(players[action.Index]);
 
         /*
           @todo Remove this statement
@@ -31,10 +31,10 @@ namespace Hoguma
         ConsoleUtil.WriteColor($"Player loaded! {PlayerManager.CurrentChampion.Name} - {PlayerManager.CurrentChampion.Nickname}");
         ConsoleUtil.Pause();
 
-        if (action >= players.Count - 2)
+        if (action.Index >= players.Count - 2)
         {
           // Create or Exit
-          if (action == players.Count - 2)
+          if (action.Index == players.Count - 2)
           {
             // Create new champion
             PlayerManager.CreatePlayer();

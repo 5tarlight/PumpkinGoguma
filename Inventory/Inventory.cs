@@ -101,7 +101,7 @@ namespace Hoguma.Inventory
         }
 
         var res = ConsoleUtil.Ask($"{item.Name}{(count == 1 ? "(을)를" : $" {item.Count}개를")} 버리시겠습니까", new List<string>() { "예", "아니요" });
-        if (res == 0)
+        if (res.Index == 0)
         {
           ConsoleUtil.WriteLine($"{item.Name}{(count == 1 ? "(을)를" : $" {item.Count}개를")} 버렸습니다.");
           ConsoleUtil.Pause(false);

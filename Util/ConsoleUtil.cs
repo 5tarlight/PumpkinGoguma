@@ -84,10 +84,10 @@ namespace Hoguma.Util
       ReadKey();
     }
 
-    public static int Ask(string title, List<string> query)
+    public static AskResponse Ask(string title, List<string> query, bool isCancel = false)
     {
       if (query.Count == 0)
-        return -1;
+        return new AskResponse(-1, true);
 
       var i = 0;
       var done = false;
@@ -105,45 +105,29 @@ namespace Hoguma.Util
           else
             WriteColor(txt, Colors.txtMuted);
         }
-        WriteColor("\n↑↓ 이동, ↲ 선택");
-        var key = ReadKey();
+        WriteColor(Keybinds.Marks(true, false, true, isCancel));
+        var key = Keybinds.Check(ReadKey());
 
         switch (key)
         {
-          case ConsoleKey.DownArrow:
-            if (i < query.Count - 1)
-              i++;
+          case KeyType.DOWN:
+            if (i == query.Count - 1) i = 0;
+            else i++;
             break;
-          case ConsoleKey.UpArrow:
-            if (i > 0)
-              i--;
+          case KeyType.UP:
+            if (i == 0) i = query.Count - 1;
+            else i--;
             break;
-          case ConsoleKey.Enter:
+          case KeyType.ENTER:
             done = true;
+            break;
+          case KeyType.CANCEL:
+            if (isCancel) return new AskResponse(-1, true);
             break;
         }
       } while (!done);
 
-      return i;
-    }
-
-    public static AskResponse Ask(string title, List<string> query, bool addCancel)
-    {
-      var tmp = query.ConvertAll(q => q);
-      if (addCancel)
-      {
-        tmp.Add("취소");
-        var res = Ask(title, tmp);
-        if (res == tmp.Count)
-          return new AskResponse(-1, true);
-        else
-          return new AskResponse(res, false);
-      }
-      else
-      {
-        var res = Ask(title, tmp);
-        return new AskResponse(res, false);
-      }
+      return new AskResponse(i, false);
     }
 
     public static string ReadLine(string query, Func<string?, bool> checker)
@@ -162,9 +146,9 @@ namespace Hoguma.Util
         return line;
     }
 
-    public static SelectResponse Select(Action title, SelectQuery query) => Select(title, query, () => { });
+    public static SelectResponse Select(Action title, SelectQuery query, bool isCancel = false) => Select(title, query, () => { }, isCancel);
 
-    public static SelectResponse Select(Action title, SelectQuery query, Action middle)
+    public static SelectResponse Select(Action title, SelectQuery query, Action middle, bool isCancel = false)
     {
       const int max = 10;
       var page = 0;
@@ -202,28 +186,26 @@ namespace Hoguma.Util
           }
 
         }
-        WriteColor("\n↑↓←→ 이동, ↲ 선택, Esc 취소");
+        WriteColor(Keybinds.Marks(true, true, true, isCancel));
 
         var pageCount = (int)Math.Ceiling((double)(query.Columns[selectedRow].Count / max));
-        var key = ReadKey();
+        var key = Keybinds.Check(ReadKey());
 
         switch (key)
         {
-          case ConsoleKey.LeftArrow:
+          case KeyType.LEFT:
             if (selectedRow == 0)
               selectedRow = query.Rows.Count - 1;
             else
               selectedRow--;
             break;
-
-          case ConsoleKey.RightArrow:
+          case KeyType.RIGHT:
             if (selectedRow == query.Rows.Count - 1)
               selectedRow = 0;
             else
               selectedRow++;
             break;
-
-          case ConsoleKey.UpArrow:
+          case KeyType.UP:
             if (selectedColumn == 0)
             {
               if (page == 0)
@@ -235,8 +217,7 @@ namespace Hoguma.Util
             else
               selectedColumn--;
             break;
-
-          case ConsoleKey.DownArrow:
+          case KeyType.DOWN:
             if (selectedColumn == max - 1)
             {
               if (page == pageCount)
@@ -247,13 +228,11 @@ namespace Hoguma.Util
             }
             else
               selectedColumn++;
-
             break;
-
-          case ConsoleKey.Escape:
-            return new SelectResponse(-1, -1, true);
-
-          case ConsoleKey.Enter:
+          case KeyType.CANCEL:
+            if (isCancel) return new SelectResponse(-1, -1, true);
+            break;
+          case KeyType.ENTER:
             var index = (max * page) + selectedColumn;
             if (index < query.Columns[selectedRow].Count)
               return new SelectResponse(selectedRow, (max * page) + selectedColumn, false);
