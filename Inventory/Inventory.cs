@@ -104,15 +104,25 @@ namespace Hoguma.Inventory
       Items[(int)selectedItem.Type].Items.RemoveAt(selectedItem.Index);
     }
 
-    public void GetItem(IItem item)
+    public void GetItem(IItem item, bool printMessage = true)
     {
-      foreach (var inv in Items)
-      {
-        if (item.Type == inv.Type)
-        {
+      var inv = Items[Items.IndexOf(Items.Single(x => x.Type == item.Type))];
 
-          return;
-        }
+      var mergeableItem = inv.Items.SingleOrDefault(x => x.CanMerge(item));
+
+      if (mergeableItem != null)
+      {
+        inv.Items[inv.Items.IndexOf(mergeableItem)].Count += item.Count;
+      }
+      else
+      {
+        inv.Items.Add(item);
+      }
+
+      if (printMessage)
+      {
+        ConsoleUtil.WriteColor($"{item.Name}{(item.Count == 1 ? "(을)를" : $" {item.Count}개를")} 획득했습니다.", Colors.txtSuccess);
+        ConsoleUtil.Pause(false);
       }
     }
   }

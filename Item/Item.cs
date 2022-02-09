@@ -30,5 +30,7 @@ namespace Hoguma.Item
       }
       return newInstance;
     }
+
+    public virtual bool CanMerge(IItem item) => Id == item.Id;
   }
 }

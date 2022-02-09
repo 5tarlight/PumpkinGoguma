@@ -7,5 +7,7 @@ namespace Hoguma.Item
     int Count { get; set; }
     ItemId Id { get; }
     ItemType Type { get; }
+
+    bool CanMerge(IItem item);
   }
 }
