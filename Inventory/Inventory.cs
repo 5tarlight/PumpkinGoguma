@@ -91,15 +91,29 @@ namespace Hoguma.Inventory
         if (res == 0)
         {
           ConsoleUtil.WriteLine($"{item.Name}{(count == 1 ? "(을)를" : $" {item.Count}개를")} 버렸습니다.");
+          ConsoleUtil.Pause(false);
         }
         else
         {
           ConsoleUtil.WriteLine($"{item.Name}(을)를 버리지 않았습니다.");
+          ConsoleUtil.Pause(false);
           return;
         }
       }
 
       Items[(int)selectedItem.Type].Items.RemoveAt(selectedItem.Index);
+    }
+
+    public void GetItem(IItem item)
+    {
+      foreach (var inv in Items)
+      {
+        if (item.Type == inv.Type)
+        {
+
+          return;
+        }
+      }
     }
   }
 }

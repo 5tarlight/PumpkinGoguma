@@ -1,7 +1,7 @@
 namespace Hoguma.Item
 {
   [Serializable]
-  public abstract class Item : IItem
+  public abstract class Item : IItem, ICloneable
   {
     public abstract string Name { get; }
 
@@ -13,5 +13,10 @@ namespace Hoguma.Item
 
     public virtual ItemId Id => ItemId.NONE;
 
+    public virtual object Clone()
+    {
+      var
+      return
+    }
   }
 }
