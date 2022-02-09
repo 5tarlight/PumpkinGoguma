@@ -16,7 +16,7 @@ namespace Hoguma.Game
           "인벤토리 열기", "get test item", "게임 종료"
         };
         var res = ConsoleUtil.Ask("무엇을 하시겠습니까?", list);
-        switch (res)
+        switch (res.Index)
         {
           case 0: // show player's inventory
             player.Inventory.Show();

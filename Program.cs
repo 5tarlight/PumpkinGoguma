@@ -14,43 +14,45 @@ namespace Hoguma
       ConsoleUtil.Clear();
       // Fixing Colorify bug (console theme not applied)
 
-      ConsoleUtil.WriteColor("\nWelcome To Pumpkin Potato\n");
-      ConsoleUtil.Pause();
       var players = PlayerManager.LoadPlayerList();
-      players.Add("새로 만들기");
-      players.Add("종료하기");
+
       while (true)
       {
-        var action = ConsoleUtil.Ask("캐릭터를 선택해 주세요.", players);
-        PlayerManager.LoadPlayerData(players[action]);
+        var hasPlayerData = players.Count > 0;
+        var options = new List<string>() { "새로 만들기" };
+        if (hasPlayerData) options.Add("이어 하기");
+        options.Add("종료 하기");
 
-        /*
-          @todo Remove this statement
-          @body This statement is for testing. Check if player loading is working.
-        */
-        ConsoleUtil.WriteColor($"Player loaded! {PlayerManager.CurrentChampion.Name} - {PlayerManager.CurrentChampion.Nickname}");
-        ConsoleUtil.Pause();
+        var action = ConsoleUtil.Ask("\nWelcome To Pumpkin Potato\n", options);
 
-        if (action >= players.Count - 2)
+        if (action.Index == 0)
         {
-          // Create or Exit
-          if (action == players.Count - 2)
-          {
-            // Create new champion
-            PlayerManager.CreatePlayer();
+          // Create new champion
+          if (PlayerManager.CreatePlayer())
             Hoguma.Game.Main.ShowMenu();
-          }
-          else
-          {
-            // Exit
-            Environment.Exit(0);
-          }
         }
+        else if (action.Index == 1 && hasPlayerData)
+        {
+          // Load player data
+          var loadPlayer = ConsoleUtil.Ask("\n이어 할 챔피언을 선택하세요.\n", players, true);
+          if (loadPlayer.IsCancel) continue;
+          PlayerManager.LoadPlayerData(players[loadPlayer.Index]);
+
+          Hoguma.Game.Main.ShowMenu();
+        }
+        else if (action.Index == 2 || (action.Index == 1 && !hasPlayerData))
+        {
+          // Exit.
+          Environment.Exit(0);
+        }
+
+
       }
     }
 
     static void OnProcessEnd(object? sender, EventArgs e)
     {
+      ConsoleUtil.Clear();
       ConsoleUtil.WriteColor("저장하는 중...");
       // Save everything
     }
