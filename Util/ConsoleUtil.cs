@@ -275,7 +275,7 @@ namespace Hoguma.Util
     {
       while (true)
       {
-        ConsoleUtil.Clear();
+        Clear();
         query();
         WriteColor(Keybinds.Marks(false, false, true, true));
         var key = Keybinds.Check(ReadKey());
@@ -283,6 +283,17 @@ namespace Hoguma.Util
         if (key == KeyType.ENTER) return true;
         else if (key == KeyType.CANCEL) return false;
       }
+    }
+
+    public static void Information(string text) => Information(() => { WriteColor(text); });
+
+    public static void Information(Action text)
+    {
+      Clear();
+      Write("\n\n");
+      text();
+      Write("\n\n");
+      Pause(false);
     }
   }
 }
