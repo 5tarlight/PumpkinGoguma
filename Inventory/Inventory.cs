@@ -48,7 +48,14 @@ namespace Hoguma.Inventory
         itemList.Add(inv.Items.Select(x => x.Name).ToList());
       }
 
-      var select = ConsoleUtil.Select("아이템을 선택하세요.", new SelectQuery(invList, itemList));
+      var len = 2 + (invList.Count * 3);
+      foreach (var inv in invList) len += inv.Length;
+
+      var select = ConsoleUtil.Select(() =>
+      {
+        ConsoleUtil.WriteColor(ConsoleUtil.GetSep(len, " INVENTORY "));
+        ConsoleUtil.WriteColor(ConsoleUtil.GetSep(len, $"{Money} G", ' '), Colors.txtWarning);
+      }, new SelectQuery(invList, itemList));
 
       if (select.IsCancel) return null;
       else return new SelectedItem((ItemType)select.Row, select.Column);

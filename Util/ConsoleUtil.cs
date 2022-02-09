@@ -2,6 +2,7 @@ using Colorify;
 using Colorify.UI;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Hoguma.Util
 {
@@ -161,7 +162,9 @@ namespace Hoguma.Util
         return line;
     }
 
-    public static SelectResponse Select(string title, SelectQuery query)
+    public static SelectResponse Select(Action title, SelectQuery query) => Select(title, query, () => { });
+
+    public static SelectResponse Select(Action title, SelectQuery query, Action middle)
     {
       const int max = 10;
       var page = 0;
@@ -171,15 +174,18 @@ namespace Hoguma.Util
       do
       {
         Clear();
-        WriteColor(title, Colors.txtDefault, true);
-        WriteColor("\n\n| ", Colors.txtDefault, true);
+        title();
+        WriteColor("| ", Colors.txtDefault, true);
 
         for (var i = 0; i < query.Rows.Count; i++)
         {
           WriteColor(query.Rows[i], (selectedRow == i ? Colors.txtDefault : Colors.txtMuted), true);
           WriteColor(" | ", Colors.txtDefault, true);
         }
-        Write("\n\n");
+
+        Write("\n");
+        middle();
+        Write("\n");
 
         for (var i = 0; i < max; i++)
         {
@@ -254,6 +260,32 @@ namespace Hoguma.Util
             break;
         }
       } while (true);
+    }
+
+    public static string GetSep(int length, string txt = "", char chr = '=')
+    {
+      var sb = new StringBuilder();
+
+      if (txt == "")
+      {
+        for (var i = 0; i < length; i++) sb.Append(chr);
+      }
+      else if (txt.Length % 2 == 0)
+      {
+        var l = (length - txt.Length) / 2 - 1;
+        for (var i = 0; i < l; i++) sb.Append(chr);
+        sb.Append($" {txt} ");
+        for (var i = 0; i < l; i++) sb.Append(chr);
+      }
+      else
+      {
+        var l = (length - txt.Length - 1) / 2 - 1;
+        for (var i = 0; i < l; i++) sb.Append(chr);
+        sb.Append($" {txt} ");
+        for (var i = 0; i < l + 1; i++) sb.Append(chr);
+      }
+
+      return sb.ToString();
     }
   }
 }

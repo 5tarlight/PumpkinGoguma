@@ -2,6 +2,7 @@ using Hoguma.Item;
 
 namespace Hoguma.Inventory
 {
+  [Serializable]
   public class EquipmentInv
   {
     public List<EquipmentInvItem> Items { get; set; }
