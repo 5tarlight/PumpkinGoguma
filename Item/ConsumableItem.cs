@@ -5,7 +5,7 @@ namespace Hoguma.Item
   {
     public override ItemType Type => ItemType.CONSUMABLE;
 
-    public abstract ConsumableEffect UseEffect { get; set; }
+    public ConsumableEffect UseEffect { get; set; }
 
   }
 }

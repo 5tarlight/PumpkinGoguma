@@ -5,6 +5,6 @@ namespace Hoguma.Item
   {
     public override ItemType Type => ItemType.EQUIPMENT;
 
-    public abstract EquipmentAbility Ability { get; set; }
+    public EquipmentAbility Ability { get; set; }
   }
 }
