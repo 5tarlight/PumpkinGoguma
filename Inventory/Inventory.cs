@@ -11,6 +11,10 @@ namespace Hoguma.Inventory
 
     public EquipmentInv Equipment { get; private set; } = new EquipmentInv();
 
+    public const int MaxMoney = Int32.MaxValue;
+
+    public int Money { get; private set; }
+
     public Inventory()
     {
       var typeCount = Enum.GetValues(typeof(ItemType)).Length;
@@ -127,5 +131,9 @@ namespace Hoguma.Inventory
         ConsoleUtil.Pause(false);
       }
     }
+
+    public void GetMoney(int value) => Money = Math.Min(Money + Math.Abs(value), MaxMoney);
+
+    public void LoseMoney(int value) => Money = Math.Max(0, Money - Math.Abs(value));
   }
 }

@@ -23,7 +23,7 @@ namespace Hoguma.Game
             break;
           case 1: // get test item
             player.Inventory.Items[0].Items.Add(new TestItemE());
-            player.Inventory.Items[1].Items.Add(new TestItemC());
+            // player.Inventory.Items[1].Items.Add(new TestItemC());
             player.Inventory.Items[2].Items.Add(new TestItemO());
             break;
           default: // exit
