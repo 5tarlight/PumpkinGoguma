@@ -84,7 +84,9 @@ namespace Hoguma.Util
       ReadKey();
     }
 
-    public static AskResponse Ask(string title, List<string> query, bool isCancel = false)
+    public static AskResponse Ask(string title, List<string> query, bool isCancel = false) => Ask(() => { WriteColor(title); }, query, isCancel);
+
+    public static AskResponse Ask(Action title, List<string> query, bool isCancel = false)
     {
       if (query.Count == 0)
         return new AskResponse(-1, true);
@@ -95,7 +97,7 @@ namespace Hoguma.Util
       do
       {
         Clear();
-        WriteColor(title);
+        title();
         for (int k = 0; k < query.Count; k++)
         {
           var txt = $"{k + 1}. {query[k]}";
@@ -265,6 +267,33 @@ namespace Hoguma.Util
       }
 
       return sb.ToString();
+    }
+
+    public static bool AskBool(string query) => AskBool(() => { WriteColor(query); });
+
+    public static bool AskBool(Action query)
+    {
+      while (true)
+      {
+        Clear();
+        query();
+        WriteColor(Keybinds.Marks(false, false, true, true));
+        var key = Keybinds.Check(ReadKey());
+
+        if (key == KeyType.ENTER) return true;
+        else if (key == KeyType.CANCEL) return false;
+      }
+    }
+
+    public static void Information(string text) => Information(() => { WriteColor(text); });
+
+    public static void Information(Action text)
+    {
+      Clear();
+      Write("\n\n");
+      text();
+      Write("\n\n");
+      Pause(false);
     }
   }
 }
