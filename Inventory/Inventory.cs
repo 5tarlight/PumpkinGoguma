@@ -1,3 +1,4 @@
+using System.Buffers.Text;
 using Colorify;
 using Hoguma.Util;
 using Hoguma.Item;
@@ -7,7 +8,7 @@ namespace Hoguma.Inventory
   [Serializable]
   public class Inventory
   {
-    public List<InventoryItem> Items { get; private set; } = new List<InventoryItem>();
+    public List<InventoryItem> Items { get; set; } = new List<InventoryItem>();
 
     public EquipmentInv Equipment { get; private set; } = new EquipmentInv();
 
@@ -66,9 +67,9 @@ namespace Hoguma.Inventory
     {
       var item = Items[(int)selectedItem.Type].Items[selectedItem.Index];
 
-      ConsoleUtil.WriteColor($" - {item.Name}", Colors.txtInfo, true);
+      ConsoleUtil.WriteColor($" - {item.Name}\t", Colors.txtInfo, true);
       ConsoleUtil.WriteColor($"{item.Type.ToString()} 아이템", Colors.txtWarning);
-      ConsoleUtil.WriteColor($" [ {item.Count} 개 ]", Colors.txtDefault, true);
+      ConsoleUtil.WriteColor($"   [ {item.Count} 개 ]\t", Colors.txtDefault, true);
       ConsoleUtil.WriteLine(item.Description);
 
       ConsoleUtil.Pause(false);
@@ -119,18 +120,21 @@ namespace Hoguma.Inventory
 
     public void GetItem(IItem item, bool printMessage = true)
     {
-      var inv = Items[Items.IndexOf(Items.Single(x => x.Type == item.Type))];
+      var inv = Items.IndexOf(Items.Single(x => x.Type == item.Type));
+      var target = Items[inv].Items.Find(x => x.Name == item.Name);
 
-      var mergeableItem = inv.Items.SingleOrDefault(x => x.CanMerge(item));
-
-      if (mergeableItem != null)
-      {
-        inv.Items[inv.Items.IndexOf(mergeableItem)].Count += item.Count;
-      }
+      if (target != null)
+        target.Count += item.Count;
       else
-      {
-        inv.Items.Add(item);
-      }
+        Items[inv].Items.Add(item);
+
+      // var mergeableItem = Items[inv].Items.SingleOrDefault(x => x.CanMerge(item));
+      // ConsoleUtil.WriteColor($"{mergeableItem == null}");
+
+      // if (mergeableItem != null)
+      //   Items[inv].Items[Items[inv].Items.IndexOf(mergeableItem)].Count += item.Count;
+      // else
+      //   Items[inv].Items.Add(item);
 
       if (printMessage)
       {

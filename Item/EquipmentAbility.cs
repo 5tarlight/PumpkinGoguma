@@ -14,5 +14,21 @@ namespace Hoguma.Item
     public double IncreaseMaxMp { get; } = 0;
 
     public double IncreaseMp { get; } = 0;
+
+    public override bool Equals(object? obj)
+    {
+      return obj is EquipmentAbility ability &&
+             IncreaseAd == ability.IncreaseAd &&
+             IncreaseAp == ability.IncreaseAp &&
+             IncreaseMaxHp == ability.IncreaseMaxHp &&
+             IncreaseHp == ability.IncreaseHp &&
+             IncreaseMaxMp == ability.IncreaseMaxMp &&
+             IncreaseMp == ability.IncreaseMp;
+    }
+
+    public override int GetHashCode()
+    {
+      return HashCode.Combine(IncreaseAd, IncreaseAp, IncreaseMaxHp, IncreaseHp, IncreaseMaxMp, IncreaseMp);
+    }
   }
 }

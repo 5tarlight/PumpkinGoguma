@@ -57,11 +57,12 @@ namespace Hoguma.Entity.Champion
     public abstract double GrowthMp { get; }
     public abstract double BaseMp { get; }
 
-    public Inventory.Inventory Inventory { get; } = new Inventory.Inventory();
+    public Inventory.Inventory Inventory { get; set; }
 
     public BaseChampion(string nickname) : base()
     {
       Nickname = nickname;
+      Inventory = new Inventory.Inventory();
     }
 
     public void ExpUp(double exp)
