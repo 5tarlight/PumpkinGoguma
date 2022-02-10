@@ -24,7 +24,7 @@ namespace Hoguma.Entity.Champion
     public abstract double GrowthAp { get; }
     public abstract double Ap { get; }
 
-    public abstract Inventory.Inventory Inventory { get; }
+    public abstract Inventory.Inventory Inventory { get; set; }
 
     public abstract void ExpUp(double exp);
   }

@@ -5,7 +5,6 @@ namespace Hoguma.Game
 {
   public class Main
   {
-
     public static void ShowMenu()
     {
       var player = PlayerManager.CurrentChampion;
@@ -16,16 +15,29 @@ namespace Hoguma.Game
           new List<string>() {
             "인벤토리 열기",
             "테스트 아이템 받기",
-            "게임 종료"
+            "돈 받기",
+            "게임 종료",
+            player.Inventory.Items[0].Items.Count.ToString(),
+            player.Inventory.Items[1].Items.Count.ToString(),
+            player.Inventory.Items[2].Items.Count.ToString(),
           },
           new List<Action>() {
           () => { player.Inventory.Show(); },
           () => {
-            player.Inventory.Items[0].Items.Add(new TestItemE());
-            // player.Inventory.Items[1].Items.Add(new TestItemC());
-            player.Inventory.Items[2].Items.Add(new TestItemO());
-           },
-          () => { Environment.Exit(0); }
+              // PlayerManager.CurrentChampion.Inventory.GetItem(new TestItemE());
+              ConsoleUtil.WriteColor($"{player.Inventory.Items[0].Items.Count}");
+              player.Inventory.Items[0].Items.Add(new TestItemE());
+              ConsoleUtil.WriteColor($"{player.Inventory.Items[0].Items.Count}");
+              ConsoleUtil.Pause();
+              // player.Inventory.Items[0].Items.Add(new TestItemE());
+              // player.Inventory.Items[1].Items.Add(new TestItemC());
+              // player.Inventory.Items[2].Items.Add(new TestItemO());
+            },
+            () => {
+              PlayerManager.CurrentChampion.Inventory.GetMoney(100);
+              // player.Inventory.Money += 100;
+            },
+            () => { Environment.Exit(0); }
           }
         );
 
