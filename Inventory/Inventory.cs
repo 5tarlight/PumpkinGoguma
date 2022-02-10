@@ -121,16 +121,12 @@ namespace Hoguma.Inventory
     public void GetItem(IItem item, bool printMessage = true)
     {
       var inv = Items.IndexOf(Items.Single(x => x.Type == item.Type));
-
       var target = Items[inv].Items.Find(x => x.Name == item.Name);
 
-      ConsoleUtil.WriteColor($"{target != null}");
       if (target != null)
         target.Count += item.Count;
       else
         Items[inv].Items.Add(item);
-
-      ConsoleUtil.WriteColor($"{Items[inv].Items.Count}");
 
       // var mergeableItem = Items[inv].Items.SingleOrDefault(x => x.CanMerge(item));
       // ConsoleUtil.WriteColor($"{mergeableItem == null}");

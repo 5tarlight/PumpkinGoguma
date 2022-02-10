@@ -17,21 +17,11 @@ namespace Hoguma.Game
             "테스트 아이템 받기",
             "돈 받기",
             "게임 종료",
-            player.Inventory.Items[0].Items.Count.ToString(),
-            player.Inventory.Items[1].Items.Count.ToString(),
-            player.Inventory.Items[2].Items.Count.ToString(),
           },
           new List<Action>() {
           () => { player.Inventory.Show(); },
           () => {
-              // PlayerManager.CurrentChampion.Inventory.GetItem(new TestItemE());
-              ConsoleUtil.WriteColor($"{player.Inventory.Items[0].Items.Count}");
-              player.Inventory.Items[0].Items.Add(new TestItemE());
-              ConsoleUtil.WriteColor($"{player.Inventory.Items[0].Items.Count}");
-              ConsoleUtil.Pause();
-              // player.Inventory.Items[0].Items.Add(new TestItemE());
-              // player.Inventory.Items[1].Items.Add(new TestItemC());
-              // player.Inventory.Items[2].Items.Add(new TestItemO());
+              player.Inventory.GetItem(new TestItemE());
             },
             () => {
               PlayerManager.CurrentChampion.Inventory.GetMoney(100);

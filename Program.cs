@@ -45,8 +45,6 @@ namespace Hoguma
           // Exit.
           Environment.Exit(0);
         }
-
-
       }
     }
 

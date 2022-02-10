@@ -86,9 +86,10 @@ namespace Hoguma.Util
 
     public static AskResponse Ask(string title, List<string> query, bool isCancel = false) => Ask(() => { WriteColor(title); }, query, isCancel);
 
-    public static AskResponse Ask(Action title, List<string> query, bool isCancel = false)
+    public static AskResponse Ask(Action title, List<string> queryParam, bool isCancel = false)
     {
-      if (query.Count == 0)
+      var query = queryParam.ToArray();
+      if (query.Length == 0)
         return new AskResponse(-1, true);
 
       var i = 0;
@@ -98,7 +99,7 @@ namespace Hoguma.Util
       {
         Clear();
         title();
-        for (int k = 0; k < query.Count; k++)
+        for (int k = 0; k < query.Length; k++)
         {
           var txt = $"{k + 1}. {query[k]}";
 
@@ -113,11 +114,11 @@ namespace Hoguma.Util
         switch (key)
         {
           case KeyType.DOWN:
-            if (i == query.Count - 1) i = 0;
+            if (i == query.Length - 1) i = 0;
             else i++;
             break;
           case KeyType.UP:
-            if (i == 0) i = query.Count - 1;
+            if (i == 0) i = query.Length - 1;
             else i--;
             break;
           case KeyType.ENTER:
@@ -186,7 +187,6 @@ namespace Hoguma.Util
             var txt = $"    {index + 1}. 없음";
             WriteColor(txt, (i == selectedColumn ? Colors.txtDefault : Colors.txtMuted));
           }
-
         }
         WriteColor(Keybinds.Marks(true, true, true, isCancel));
 
