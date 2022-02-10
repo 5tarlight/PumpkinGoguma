@@ -295,5 +295,34 @@ namespace Hoguma.Util
       Write("\n\n");
       Pause(false);
     }
+
+    public static AskResponse Ask(string title, List<string> query, List<Action> responses, bool isCancel = false)
+    {
+      return Ask(
+        () => { WriteColor(title); },
+        query,
+        responses,
+        isCancel
+      );
+    }
+
+    public static AskResponse Ask(Action title, List<string> query, List<Action> responses, bool isCancel = false)
+    {
+      var res = Ask(title, query, isCancel);
+
+      if (res.IsCancel)
+        return res;
+
+      try
+      {
+        responses[res.Index]();
+        return res;
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e);
+        return res;
+      }
+    }
   }
 }
