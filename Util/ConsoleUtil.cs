@@ -63,12 +63,13 @@ namespace Hoguma.Util
       if (isInline)
         _colorify.Write(message, color);
       else
-        _colorify.WriteLine(message, color);
+        _colorify.Write(message + "\n", color);
+
     }
 
     public static void Clear()
     {
-      Console.Clear();
+      _colorify.Clear();
     }
 
     public static ConsoleKey ReadKey()
@@ -84,7 +85,7 @@ namespace Hoguma.Util
       ReadKey();
     }
 
-    public static AskResponse Ask(string title, List<string> query, bool isCancel = false) => Ask(() => { WriteColor(title); }, query, isCancel);
+    public static AskResponse Ask(string title, List<string> query, bool isCancel = false) => Ask(() => { WriteColor($"\n{title}\n"); }, query, isCancel);
 
     public static AskResponse Ask(Action title, List<string> queryParam, bool isCancel = false)
     {
@@ -108,7 +109,7 @@ namespace Hoguma.Util
           else
             WriteColor(txt, Colors.txtMuted);
         }
-        WriteColor(Keybinds.Marks(true, false, true, isCancel));
+        WriteColor("\n" + Keybinds.Marks(true, false, true, isCancel));
         var key = Keybinds.Check(ReadKey());
 
         switch (key)
@@ -188,7 +189,7 @@ namespace Hoguma.Util
             WriteColor(txt, (i == selectedColumn ? Colors.txtDefault : Colors.txtMuted));
           }
         }
-        WriteColor(Keybinds.Marks(true, true, true, isCancel));
+        WriteColor("\n" + Keybinds.Marks(true, true, true, isCancel));
 
         var pageCount = (int)Math.Ceiling((double)(query.Columns[selectedRow].Count / max));
         var key = Keybinds.Check(ReadKey());
@@ -299,7 +300,7 @@ namespace Hoguma.Util
     public static AskResponse Ask(string title, List<string> query, List<Action> responses, bool isCancel = false)
     {
       return Ask(
-        () => { WriteColor(title); },
+        () => { WriteColor($"\n{title}\n"); },
         query,
         responses,
         isCancel

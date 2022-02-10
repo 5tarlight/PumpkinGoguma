@@ -10,8 +10,7 @@ namespace Hoguma.Game
       var player = PlayerManager.CurrentChampion;
       while (true)
       {
-        ConsoleUtil.Ask(
-          () => { ConsoleUtil.WriteColor("무엇을 하시겠습니까?"); },
+        ConsoleUtil.Ask("무엇을 하시겠습니까?",
           new List<string>() {
             "인벤토리 열기",
             "테스트 아이템 받기",

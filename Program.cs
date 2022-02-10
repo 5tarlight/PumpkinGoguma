@@ -23,7 +23,7 @@ namespace Hoguma
         if (hasPlayerData) options.Add("이어 하기");
         options.Add("종료 하기");
 
-        var action = ConsoleUtil.Ask("\nWelcome To Pumpkin Potato\n", options);
+        var action = ConsoleUtil.Ask("Welcome To Pumpkin Potato", options);
 
         if (action.Index == 0)
         {
@@ -34,7 +34,7 @@ namespace Hoguma
         else if (action.Index == 1 && hasPlayerData)
         {
           // Load player data
-          var loadPlayer = ConsoleUtil.Ask("\n이어 할 챔피언을 선택하세요.\n", players, true);
+          var loadPlayer = ConsoleUtil.Ask("이어 할 챔피언을 선택하세요.", players, true);
           if (loadPlayer.IsCancel) continue;
           PlayerManager.LoadPlayerData(players[loadPlayer.Index]);
 
