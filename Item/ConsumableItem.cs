@@ -9,17 +9,17 @@ namespace Hoguma.Item
 
     public abstract ConsumableType ConsumableType { get; }
 
-    public override bool CanMerge(IItem item)
+    public override bool Equals(object? obj)
     {
-      try
-      {
-        var it = (ConsumableItem)item;
-        return base.CanMerge(item) && ConsumableType == it.ConsumableType && UseEffect == it.UseEffect;
-      }
-      catch
-      {
-        return false;
-      }
+      return obj is ConsumableItem item &&
+             base.Equals(obj) &&
+             ConsumableType == item.ConsumableType &&
+             UseEffect.Equals(item.UseEffect);
+    }
+
+    public override int GetHashCode()
+    {
+      return HashCode.Combine(base.GetHashCode, UseEffect, ConsumableType);
     }
 
     public abstract void OnUse();

@@ -9,18 +9,19 @@ namespace Hoguma.Item
 
     public abstract EquipmentType EquipmentType { get; }
 
-    public override bool CanMerge(IItem item)
+    public override bool Equals(object? obj)
     {
-      try
-      {
-        var it = (EquipmentItem)item;
-        return base.CanMerge(item) && EquipmentType == it.EquipmentType && Ability == it.Ability;
-      }
-      catch
-      {
-        return false;
-      }
+      return obj is EquipmentItem ite &&
+             base.Equals(obj) &&
+             EquipmentType == ite.EquipmentType &&
+             Ability.Equals(ite.Ability);
     }
+
+    public override int GetHashCode()
+    {
+      return HashCode.Combine(base.GetHashCode, EquipmentType, Ability);
+    }
+
 
     public void OnEquip()
     {

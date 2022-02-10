@@ -31,7 +31,7 @@ namespace Hoguma.Item
       return newInstance;
     }
 
-    public virtual bool CanMerge(IItem item) => Id == item.Id && Name == item.Name && Type == item.Type;
+    public bool CanMerge(IItem item) => Equals(item);
 
     public override bool Equals(object? obj)
     {

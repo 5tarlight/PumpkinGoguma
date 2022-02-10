@@ -8,9 +8,9 @@ namespace Hoguma.Inventory
   [Serializable]
   public class Inventory
   {
-    public List<InventoryItem> Items { get; set; } = new List<InventoryItem>();
+    public List<InventoryItem> Items { get; private set; }
 
-    public EquipmentInv Equipment { get; private set; } = new EquipmentInv();
+    public EquipmentInv Equipment { get; private set; }
 
     public const int MaxMoney = Int32.MaxValue;
 
@@ -18,6 +18,9 @@ namespace Hoguma.Inventory
 
     public Inventory()
     {
+      Items = new List<InventoryItem>();
+      Equipment = new EquipmentInv();
+
       var typeCount = Enum.GetValues(typeof(ItemType)).Length;
 
       for (var i = 0; i < typeCount; i++)
@@ -46,7 +49,7 @@ namespace Hoguma.Inventory
 
       foreach (var inv in Items)
       {
-        itemList.Add(inv.Items.Select(x => x.Name).ToList());
+        itemList.Add(inv.Items.Select(x => $"{x.Name}{(x.Count > 1 ? $" × {x.Count}" : String.Empty)}").ToList());
       }
 
       var len = 2 + (invList.Count * 3);
@@ -121,7 +124,7 @@ namespace Hoguma.Inventory
     public void GetItem(IItem item, bool printMessage = true)
     {
       var inv = Items.IndexOf(Items.Single(x => x.Type == item.Type));
-      var target = Items[inv].Items.Find(x => x.Name == item.Name);
+      var target = Items[inv].Items.Find(x => x.Equals(item));
 
       if (target != null)
         target.Count += item.Count;
