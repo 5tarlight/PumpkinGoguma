@@ -67,9 +67,9 @@ namespace Hoguma.Inventory
     {
       var item = Items[(int)selectedItem.Type].Items[selectedItem.Index];
 
-      ConsoleUtil.WriteColor($" - {item.Name}", Colors.txtInfo, true);
+      ConsoleUtil.WriteColor($" - {item.Name}\t", Colors.txtInfo, true);
       ConsoleUtil.WriteColor($"{item.Type.ToString()} 아이템", Colors.txtWarning);
-      ConsoleUtil.WriteColor($" [ {item.Count} 개 ]", Colors.txtDefault, true);
+      ConsoleUtil.WriteColor($"   [ {item.Count} 개 ]\t", Colors.txtDefault, true);
       ConsoleUtil.WriteLine(item.Description);
 
       ConsoleUtil.Pause(false);
