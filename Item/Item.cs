@@ -10,6 +10,8 @@ namespace Hoguma.Item
 
     public abstract string Description { get; }
 
+    public virtual bool CanMerge => true;
+
     public int Count { get; set; } = 1;
 
     public abstract ItemType Type { get; }
@@ -31,7 +33,7 @@ namespace Hoguma.Item
       return newInstance;
     }
 
-    public virtual bool CanMerge(IItem item) => Id == item.Id && Name == item.Name && Type == item.Type;
+    public bool CanMerge_(IItem item) => Equals(item) && CanMerge;
 
     public override bool Equals(object? obj)
     {
