@@ -16,17 +16,24 @@ namespace Hoguma.Game
             "테스트 아이템 받기",
             "돈 받기",
             "게임 종료",
+            "경험치를 내놓아라",
+            "show your exp",
           },
           new List<Action>() {
-          () => { player.Inventory.Show(); },
-          () => {
+            () => { player.Inventory.Show(); },
+            () => {
               player.Inventory.GetItem(new TestItemE());
             },
             () => {
               PlayerManager.CurrentChampion.Inventory.GetMoney(100);
               // player.Inventory.Money += 100;
             },
-            () => { Environment.Exit(0); }
+            () => { Environment.Exit(0); },
+            () => { player.ExpUp(50); },
+            () => {
+              Console.WriteLine(player.Exp);
+              Console.ReadKey();
+            },
           }
         );
 
